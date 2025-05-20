@@ -1,0 +1,209 @@
+/**************GRID**************/
+.vm_grid__vmID{
+    overflow: auto;
+    max-height:600px;
+}
+.vm_grid__vmID table{
+    border: 1px solid #888;
+    width: 100%;
+    border-collapse: collapse;
+    border-spacing: 0;
+    margin: 0;
+    border-width: 0;
+    margin-top:2px;
+    font-size: 90%;
+}
+.vm_grid__vmID table th{
+    font-weight: bold;
+    padding:2px 3px;
+    border: 1px solid #CCC;
+}
+.vm_grid__vmID table td{
+    font-weight: 300;
+    padding:0px 3px;
+    border: 1px solid #CCC;
+    vertical-align: top;
+    white-space: pre;
+}
+.vm_grid__vmID table tr td:first-child{
+    padding-left:10px;
+    padding-right:10px;
+    width:20px;
+}
+
+.vm_input_vmID{
+    border: 1px solid #888;
+    padding: 1px;
+}
+
+
+/**************FORM**************/
+#vm_form_container__vmID{
+    background-color:#fff;
+    color:#000;
+    margin-top:20px;
+    margin-left: auto;
+    margin-right: auto;
+    font-family: Verdana,sans-serif;
+    font-size: 15px;
+    line-height: 1.5;
+}
+#vm_header__vmID{
+    padding: 1.5em 52px;
+    border-bottom: 1px solid #d7d8e1;
+}
+.vm_t1__vmID{
+    font-size:2em;
+    font-weight: 600;
+    line-height: 1.45;
+    font-family: Inter, sans-serif;
+    color: #2c3345;
+    word-break: break-word;
+    margin:0;
+}
+.vm_t2__vmID{
+    font-size:1em;
+    font-weight: 500;
+    line-height: 1.6;
+    font-family: Inter, sans-serif;
+    color: #57647e;
+    word-break: break-word;
+}
+.vm_t3__vmID{
+    display: block;
+    margin-left: 2px;
+    margin-bottom: 8px;
+    font-size: 16px;
+    font-weight: 500;
+    word-break: break-word;
+    color: #2C3345;
+    font-family: Inter, sans-serif;
+}
+.vm_t4__vmID{
+    font-size: .75em;
+    margin-top: 11px;
+    margin-left: 2px;
+    display: block;
+    word-break: break-word;
+}
+.vm_r__vmID,.vm_i__vmID{
+    padding-top:10px;
+    padding-bottom:10px;
+    padding-left: 52px;
+    padding-right: 52px;
+}
+.vm_r__vmID:hover{
+    background-color: #ddd;
+}
+.vm_r__vmID div{
+    padding-left:6px;
+    padding-right:6px;
+}
+
+/*---------- FORM Controls ----------*/
+#vm_F__vmID div span{
+    display:inline-block;
+    padding-bottom:5px;
+}
+#vm_F__vmID div label{
+    display:inline-block;
+}
+#vm_F__vmID fieldset {
+    border: 0px solid #c0c0c0;
+    margin: 0;
+    padding: 0;
+}
+
+#vm_F__vmID input[type=radio]{
+    width:auto;
+}
+#vm_F__vmID input[type=text],
+#vm_F__vmID input[type=email],
+#vm_F__vmID input[type=tel],
+#vm_F__vmID input[type=time],
+#vm_F__vmID input[type=date],
+#vm_F__vmID select,
+#vm_F__vmID textarea
+  {
+    font-size: 1em;
+    border-radius: 4px;
+    border: 1px solid;
+    display: block;
+    padding: 0 .625em;
+    box-sizing: border-box;
+    outline: 0;
+    margin: 0;
+    text-align: left;
+    width: 100%;
+    min-width: 100%;
+    max-width: 100%;
+    border-color: #c3cad8;
+    color: #2c3345;
+    height: 2.5em;
+    background-color: #fff;
+  }
+  
+#vm_F__vmID input[type=text]:hover, 
+#vm_F__vmID input[type=email]:hover,
+#vm_F__vmID input[type=tel]:hover,
+#vm_F__vmID input[type=time]:hover,
+#vm_F__vmID input[type=date]:hover,
+#vm_F__vmID select:hover,
+#vm_F__vmID textarea:hover
+  {
+    border-color: #a9bff9;
+    box-shadow: 0 0 0 2px #c9d8fe;
+  }
+  
+#vm_F__vmID button{
+    display: inline-block;
+    font-weight: 400;
+    color: #212529;
+    text-align: center;
+    vertical-align: middle;
+    -webkit-user-select: none;
+    -moz-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+    background-color: transparent;
+    border: 1px solid transparent;
+    padding: 0.375rem 0.75rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: 0.25rem;
+    transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
+    color: #fff;
+    background-color: #6c757d;
+    border-color: #6c757d;
+  }
+#vm_F__vmID button:hover {
+    color: #fff;
+    background-color: #545b62;
+    border-color: #4e555b;
+}
+  
+
+@media screen and (max-width: 599px) {
+    .vm_grid__vmID{
+        max-height:100%;
+    }
+}
+@media screen and (max-width:576px){
+    .vm_t3__vmID{
+        margin-top:15px;
+    }
+}
+@media print{
+    #vm_form_container__vmID{
+        margin:0;
+        padding:0;
+        position: absolute;
+        top:0;
+        left:0;
+        width:100%;
+        max-width: 100%;
+    }
+    .vm_c_print {
+        display: none;
+    }
+}
