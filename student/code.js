@@ -5,10 +5,9 @@
     new ResizeObserver($vm.responsive).observe(vm_form_container__vmID);
     //**********************************************************
     vm_submit__vmID.addEventListener('click', (e) =>  { 
-        var _id="_vm_id";
         e.preventDefault(); e.stopPropagation(); 
         var formValues=$vm.serialize(vm_F__vmID)
-		var req={cmd:'html-module',action:"add", form_values:formValues, _id:_id }
+		var req={cmd:'html-web-module',action:"add", form_values:formValues, sid:"_vm_sid_" }
         console.log(req);
         $vm.request(req).then((res)=>{
             console.log(res);
