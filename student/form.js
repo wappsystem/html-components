@@ -6,23 +6,30 @@
     //----------------------------------------------------------
     var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
     var record=undefined; try{ record=_res.qp.record;}catch(e){} 
+    var form=document.getElementById("vm_F__vmID");
+    var btn=document.getElementById("vm_submit__vmID");
+    var msg=document.getElementById("vm_message__vmID");
+    if(record!=undefined) $vm.deserialize(record,form);
     //----------------------------------------------------------
     document.getElementById("vm_submit__vmID").addEventListener('click', (e) =>  { 
         e.preventDefault(); e.stopPropagation(); 
-        var formValues=$vm.serialize(vm_F__vmID)
-		var req={cmd:'json-data-add', rid:rid, form_values:formValues, sid:_res.sid }
-        console.log(req);
-        $vm.request(req).then((res)=>{
-            console.log(res);
-            if(res.status=="ok"){
-                document.getElementById("vm_submit__vmID").style.display = "none";
-                document.getElementById("vm_message__vmID").textContent="Successfully submitted.";
-            }
-        });
+        if(process_form()){
+            if (form.checkValidity()) {
+                var formValues=$vm.serialize(vm_F__vmID)
+                var req={cmd:'json-data-add', rid:rid, form_values:formValues, sid:_res.sid }
+                $vm.request(req).then((res)=>{
+                    if(res.status=="ok"){
+                        btn.style.display = "none";
+                        msg.textContent="Successfully submitted.";
+                    }
+                });
+            } 
+            else form.reportValidity();
+        }
     });
     //----------------------------------------------------------
-    if(record!=undefined){
-        $vm.deserialize(record,vm_F__vmID);
+    function process_form(){
+        return true;
     }
     //----------------------------------------------------------
 })();    
