@@ -11,7 +11,7 @@ var $vm={};
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 //const web_root = path.join(__dirname, './');
-console.log(__dirname)
+//console.log(__dirname)
 //----------------------------------------------------------
 $vm.request_get=function(req,res){
 	const parsedUrl = url.parse(req.url, true);
@@ -22,6 +22,7 @@ $vm.request_get=function(req,res){
 	//------------------------------------------------------------
 	const responseContentType = getContentType(file);
 	res.setHeader('Content-Type', responseContentType);
+	console.log(file)
 	fs.readFile(file, (error, data) => {
 		if (!error) {
 			res.writeHead(200);
@@ -55,6 +56,10 @@ const getContentType = pathName => {
 };
 //------------------------------------------------------------
 $vm.process=function(req, res, next){
+	//-------------------------------------------------
+	res.removeHeader("X-Powered-By");
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Authorization, Content-Type, Accept");
 	//-------------------------------------------------
 	var dt1=new Date().getTime();
 	//-------------------------------------------------
