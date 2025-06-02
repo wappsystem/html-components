@@ -4,7 +4,7 @@
     var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
     //----------------------------------------------------------
     console.log(_res);
-    var ask=$vm.get_file_name(_res.a,"form").split('.')[0];
+    var edit=$vm.get_file_name(_res.a,"edit").split('.')[0];
     var headers=[];
     var rows=[]
     var total=0;
@@ -21,7 +21,7 @@
             }
         })                
         //------------------------------
-        $vm.query(ask,{rid:rid,record,record});
+        $vm.query(edit,{rid:rid,record,record,sid:_res.sid});
     }
     //----------------------------------------------------------
     var record_delete=function(event){
@@ -60,7 +60,7 @@
                 record_delete(event);
             });
         });   
-
+        $vm.scroll();
     }
     //----------------------------------------------------------
     var load=function(fn){
@@ -79,10 +79,14 @@
         });
     }
     //----------------------------------------------------------
-    var fn=3;
+    var fn=100;
+    var add=document.getElementById("vm_add__vmID");
+    if(add) add.addEventListener('click', (e) =>  {  $vm.query(edit)})
     document.getElementById("vm_3all__vmID").addEventListener('click', (e) =>  {    if(fn==3) fn=100; else fn=3;  render(fn);   })
     document.getElementById("vm_load__vmID").addEventListener('click', (e) =>  {    load(fn);    })
     document.getElementById("vm_export__vmID").addEventListener('click', (e) =>  {   $vm.download_csv($vm.get_file_name(_res.a,"json").replace('.json','')+".csv",headers,rows);  })
+    document.getElementById("vm_keyword__vmID").addEventListener("keyup", function(e){  if (e.keyCode === 13) { load(fn); }   })
+    document.getElementById("vm_page__vmID").addEventListener("keyup", function(e){     if (e.keyCode === 13) { load(fn); }   })
     //----------------------------------------------------------
     load(fn);
     //----------------------------------------------------------

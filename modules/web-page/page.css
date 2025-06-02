@@ -1,0 +1,28 @@
+#D__vmID{
+    height:100%;
+    animation: vm_module_fadein 1.0s;
+    background-color: #fff;
+    overflow:auto;
+}
+#page__vmID{
+    max-width:1000px;
+    margin-left:auto;
+    margin-right:auto;
+    overflow-x: hidden;
+}
+.columnbox__vmID{
+    column-count: 2;
+    column-gap: 30px;
+    padding:0px;
+}
+@media screen and (max-width: 1200px){
+    .columnbox__vmID{
+        padding:15px;
+        column-count: 1;
+    }
+}
+.columnbox__vmID img {
+    margin:10px 0;
+    width: 100%;
+    height: auto;
+}
