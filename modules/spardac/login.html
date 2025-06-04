@@ -1,0 +1,44 @@
+<div id=page__vmID>
+	Participant ID<br>
+	<input type="uid" style="width:200px; border:1px solid #555;box-shadow:none; outline: none;"/><br><br>
+	Password<br>
+	<input type="password" style="width:200px; border:1px solid #555;box-shadow:none; outline: none;"/><br><br>
+	<button>Login</button>
+</div>
+<script>
+(function(){
+    //----------------------------------------------------------
+    var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
+    //----------------------------------------------------------
+
+	var page=document.getElementById("page__vmID");
+	var input=page.querySelectorAll("input");
+	var button=page.querySelector("button");
+	var login=function(){
+		var uid=input[0].value;
+		var password=input[1].value;
+		var req={cmd:"code",uid:uid,password:password,sid:_res.sid}
+		console.log(req);
+		$vm.request(req).then((res)=>{
+			console.log(res);
+			if(res.status=="ok"){
+				$vm.w_login_response=res.a;
+				const answerDiv = page.closest('.vm-answer');
+				$vm.query(res.a.next);
+				answerDiv.remove();
+			}
+			else{
+				alert("Invalid Password");
+			}
+		});
+	}
+	
+	button.addEventListener('click',function(e){ login(); })
+	input[1].addEventListener("keyup", function(e){ if (e.keyCode === 13) {  login();  }  
+})
+
+})();
+</script>
+<stype>
+
+</stype>

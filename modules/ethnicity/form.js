@@ -19,8 +19,10 @@
                 var req={cmd:'json-data-add', rid:rid, form_values:formValues, sid:_res.sid }
                 $vm.request(req).then((res)=>{
                     if(res.status=="ok"){
-                        btn.style.display = "none";
-                        msg.textContent="Successfully submitted.";
+                        alert("Successfully submitted.");
+                        const form = document.getElementById('vm_F__vmID');
+                        const answerDiv = form.closest('.vm-answer');
+                        answerDiv.remove();
                     }
                 });
             } 

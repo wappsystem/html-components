@@ -16,8 +16,10 @@ m.load=function(){
     $('#submit__ID').show();
     if(record!=undefined) $vm.deserialize(record,form);
     else{
-        if($vm.params['name']) form.querySelector('input[name="Participant_uid"]').value=$vm.params['uid']; 
-        if($vm.params['uid'])  form.querySelector('input[name="Participant"]').value=$vm.params['name']; 
+        if($vm.w_login_response){
+            form.querySelector('input[name="Participant_uid"]').value=$vm.w_login_response['id']; 
+            form.querySelector('input[name="Participant"]').value=$vm.w_login_response['Subject_Initials']; 
+        }
     }
 }
 //-------------------------------

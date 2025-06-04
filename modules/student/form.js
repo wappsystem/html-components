@@ -23,9 +23,8 @@
                         const form = document.getElementById('vm_F__vmID');
                         const answerDiv = form.closest('.vm-answer');
                         answerDiv.remove();
-                        //btn.style.display = "none";
-                        //msg.textContent="Successfully submitted.";
                     }
+                    else alert(res.msg);
                 });
             } 
             else form.reportValidity();
