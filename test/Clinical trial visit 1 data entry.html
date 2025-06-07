@@ -1,56 +1,104 @@
 <div id="vm__vmID">
-    Clinical trial visit 1 data entry
+    <h3>Clinical trial visit 1 data entry</h3>
     <ul>
-        <li><u q="ESS Form ^ P1 V1">ESS</u></li>
-        <li><u q="EQ-5D-5L Form ^ P1 V1">EQ-5D-5L</u></li>
     </ul>
 </div>
 <script>
     (function(){
         //---------------------------
-        var dd=[];
+        var I=0;
+        var li_query=[]
+        var li_answered=[]
+        var title=[]
+        var format=[]
         //---------------------------
-        var us=document.getElementById("vm__vmID").querySelectorAll('u');
-        us.forEach(el => {
-            dd.push({name:el.getAttribute('q'),value:0});
-            el.addEventListener('click', (e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                var q=el.getAttribute('q');
-                if(el.style && el.style.color=='lightgreen') alert('Already answered')
-                else $vm.query(q);
-            });
+        //get panel information from server
+        $vm.request({
+            cmd: "record-list-in-a-folder",
+            record_title:"ESS Form Visit 1| SFix"
+        }).then((res)=>{
+            if(res.status=="ok"){
+                title=res.title;
+                format=res.format;
+                create_li();
+            }
         });
         //---------------------------
-        I=0;
-        var process=function(){
-            I++;
-            if(I==dd.length){
-                console.log(dd);
-                for(var i=0;i<dd.length;i++){
-                    if(dd[i].value==1){
-                        us[i].style.color='lightgreen';
+        //create li elements
+        var create_li=function(){
+            //console.log(title)
+            //console.log(format)
+            var ulHtml=""
+            for(var i=0;i<format.length;i++){
+                if(format[i].split('|').length==2){
+                    if(format[i].split('|')[1].trim()=='Panel 1 Form'){
+                        ulHtml+="<li><u q='"+title[i]+"'>"+title[i].split('|')[0].trim()+"</u></li>"
+                        li_query.push(title[i]);
+                        li_answered.push(0);
                     }
-                }                
+                }
+            }
+            ul=document.getElementById("vm__vmID").querySelector('ul');
+            ul.innerHTML=ulHtml;
+            $vm.scroll();
+            u_click_actions();
+            block_already_answered();
+            if($vm.w_login_response) $vm.w_login_response.callback=block_already_answered;
+        }
+        //---------------------------
+        //create click actions
+        var us;
+        var u_click_actions=function(){
+            us=document.getElementById("vm__vmID").querySelectorAll('u');
+            us.forEach(el => {
+                el.addEventListener('click', (e) => {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    var q=el.getAttribute('q');
+                    if(el.style && el.style.color=='lightgreen') alert('Already answered')
+                    else $vm.query(q);
+                });
+            });
+        }
+        //---------------------------
+        //Block process
+        var block_already_answered=function(){
+            for(var i=0;i<us.length;i++){ us[i].style.color="",li_answered[i]=0; }
+            I=0;
+            var id=$vm.w_login_response["id"];
+            if(id){
+                for(var i=0;i<li_query.length;i++){
+                    ask_server_to_check(i);
+                }
             }
         }
         //---------------------------
         var ask_server_to_check=function(i){
             setTimeout(() => {
-                var req={cmd:"json-data-check", q:dd[i].name, field:"id", value:uid}
+                var id=$vm.w_login_response["id"];
+                var req={cmd:"json-data-exist-check", q:li_query[i], field:"Participant_uid", value:id}
                 $vm.request(req).then((res)=>{
                     if(res.status=="ok" && res.result==1){
-                        dd[i].value=1;
+                        li_answered[i]=1;
                     }
+                    else li_answered[i]=0;
                     process();
                 });
             }, 10+i*200);
         }
         //---------------------------
-        var uid=$vm.params["uid"];
-        if(uid){
-            for(var i=0;i<dd.length;i++){
-                ask_server_to_check(i);
+        var process=function(){
+            //alert(us.length)
+            console.log("----------------------")
+            I++;
+            if(I==li_answered.length){
+            console.log("22222222222222222222")
+                console.log(li_answered);
+                for(var i=0;i<li_answered.length;i++){
+                    if(li_answered[i]==1){
+                        us[i].style.color='lightgreen';
+                    }
+                }                
             }
         }
         //---------------------------

@@ -3,6 +3,7 @@
     //----------------------------------------------------------
     var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
     new ResizeObserver($vm.responsive).observe(vm_form_container__vmID);
+    console.log(_res)
     //----------------------------------------------------------
     var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
     var record=undefined; try{ record=_res.qp.record;}catch(e){} 
@@ -16,13 +17,14 @@
         if(process_form()){
             if (form.checkValidity()) {
                 var formValues=$vm.serialize(vm_F__vmID)
-                var req={cmd:'json-data-add', rid:rid, form_values:formValues, sid:_res.sid }
+                var req={cmd:'json-data-add', rid:rid, form_values:formValues, sid:_res.sid}
                 $vm.request(req).then((res)=>{
                     if(res.status=="ok"){
                         alert("Successfully submitted.");
                         const form = document.getElementById('vm_F__vmID');
                         const answerDiv = form.closest('.vm-answer');
                         answerDiv.remove();
+                        if(_res.qp.refresh) try{ $vm[_res.qp.refresh]();}catch(e){}
                     }
                     else alert(res.msg);
                 });

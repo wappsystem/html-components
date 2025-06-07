@@ -35,13 +35,18 @@ m.submit=function(event){
     if(m.before_submit!=undefined) r=m.before_submit(data,{});
     if(r==false){$('#submit__ID').show(); return;}
     
-    var req={cmd:'json-data-add', form_values:data, sid:_res.sid }
+    var req={cmd:'json-data-add', form_values:data, sid:_res.sid}
     console.log(req)
     $vm.request(req).then((res)=>{
         if(res.status=="ok"){
             alert("Successfully submitted.");
             const answerDiv = form.closest('.vm-answer');
             answerDiv.remove();
+            if($vm.w_login_response){
+                if($vm.w_login_response.callback){
+                    $vm.w_login_response.callback();
+                }
+            }
         }
     });
     //--------------------------------------------------------

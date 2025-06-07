@@ -30,7 +30,7 @@
         e.preventDefault(); e.stopPropagation(); 
         const updatedRecord = editor.get();
         if(updatedRecord==undefined) return;
-        var req={cmd:'json-data-add', rid:rid, form_values:updatedRecord, sid:_res.qp.sid }
+        var req={cmd:'json-data-add', rid:rid, form_values:updatedRecord, sid:_res.qp.sid}
         $vm.request(req).then((res)=>{
             if(res.status=="ok"){
                 msg.textContent="Successfully submitted.";
