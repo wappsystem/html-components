@@ -3,7 +3,6 @@
     //----------------------------------------------------------
     var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
     new ResizeObserver($vm.responsive).observe(vm_form_container__vmID);
-    console.log(_res)
     //----------------------------------------------------------
     var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
     var record=undefined; try{ record=_res.qp.record;}catch(e){} 

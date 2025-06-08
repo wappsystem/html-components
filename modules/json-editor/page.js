@@ -2,29 +2,93 @@
 (function(){
     //----------------------------------------------------------
     var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
+//console.log(_res)
     //----------------------------------------------------------
     var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
     var record=undefined; try{ record=_res.qp.record;}catch(e){} 
+    var fields=[]; try{ fields=_res.qp.fields;}catch(e){} 
+    var formats=[]; try{ formats=_res.qp.formats;}catch(e){} 
+    var items=[]; try{ items=_res.qp.items;}catch(e){} 
     var submit=document.getElementById("vm_submit__vmID");
     var close=document.getElementById("vm_close__vmID");
     var msg=document.getElementById("vm_message__vmID");
     var div=document.getElementById("vm__vmID");
     //----------------------------------------------------------
+    var schema={
+            type: "object",
+            properties: {
+            }
+        };
+    if(fields.length!=0){
+        for(var i=0;i<fields.length;i++){
+            switch(formats[i]){
+                case 'number': schema.properties[fields[i]]={type: "number"}; break;
+                case 'drop':   schema.properties[fields[i]]={type: "string", enum: items[i].split(';')}; break;
+                case "mail":   schema.properties[fields[i]]={type: "string",format:"email"}; break;
+                case "date":   schema.properties[fields[i]]={
+                        type: "string", 
+                        options: {
+                            inputAttributes: {
+                                placeholder: "dd/mm/yyyy"
+                            }
+                        },
+                        pattern: "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\\d{4}$",
+                        description: "Enter a date in the format dd/mm/yyyy"  
+                    }; 
+                    break;
+                /*    
+                case "radio": 
+                    var ab=items[i].split(';');
+                    var a=[],b=[];
+                    for(var i=0;i<ab.length;i++){ a.push(ab[i].split('/')[0]); b.push(ab[i].split('/')[1]);} 
+                    console.log(a);
+                    console.log(b);
+                    schema.properties[fields[i]]={
+                        type: "string", 
+                        enum: a,
+                        format: "radio",
+                        options: {
+                            enum_titles: b
+                        }
+                    }
+                    console.log(schema.properties[fields[i]])
+                    break;
+                */
+                default: schema.properties[fields[i]]={type: "string"}; break;
+            }            
+        }
+    }
+    var j_record={}
+    if(fields.length!=0){
+        for(var i=0;i<fields.length;i++){ 
+            if(record){
+                var v=record[fields[i]];
+                if(!v) v="";
+                j_record[fields[i]]=v
+            }
+            else{
+                j_record[fields[i]]="";
+            } 
+        }
+    }
+    else j_record=record;
+    //----------------------------------------------------------
     const container = document.getElementById("vm__vmID");
     const options = {
-        mode: "form", // or "tree" if you prefer collapsible structure
+        mode: "form",
+        schema:schema,        
         onEditable: function (node) {
-        return {
-            field: false,  // 🛑 prevent editing key names
-            value: true    // ✅ allow editing values
-        };
+            return {
+                field: false,
+                value: true  
+            };
         },
-        mainMenuBar: false, // 🛑 disable the menu bar (to prevent mode switching, etc.)
-        enableSort: false,  // 🛑 disable sorting keys
-        enableTransform: false, // 🛑 disable transforming (e.g., compact/pretty)
+        mainMenuBar: false,
+        enableSort: false, 
+        enableTransform: false,
     };
     const editor = new JSONEditor(container, options);
-    editor.set(record);
+    editor.set(j_record);
     //----------------------------------------------------------
     submit.addEventListener('click', (e) =>  { 
         e.preventDefault(); e.stopPropagation(); 
@@ -34,6 +98,7 @@
         $vm.request(req).then((res)=>{
             if(res.status=="ok"){
                 msg.textContent="Successfully submitted.";
+                if(_res.qp.refresh) try{ $vm[_res.qp.refresh]();}catch(e){}
             }
         });
     });
