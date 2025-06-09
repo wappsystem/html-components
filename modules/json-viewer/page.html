@@ -2,3 +2,29 @@
 <div>
     <label style='margin-left: 30px; font-size:80%' id=vm_message__vmID></label>
 </div>
+<script>
+(function(){
+    //----------------------------------------------------------
+    var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
+    //----------------------------------------------------------
+    var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
+    var record=undefined; try{ record=_res.qp.record;}catch(e){} 
+    //----------------------------------------------------------
+    const container = document.getElementById("vm__vmID");
+    const options = {
+        mode: "form",
+        onEditable: function (node) {
+        return {
+            field: false,
+            value: false
+        };
+        },
+        mainMenuBar: false,
+        enableSort: false, 
+        enableTransform: false,
+    };
+    const editor = new JSONEditor(container, options);
+    editor.set(record);
+    //----------------------------------------------------------
+})();    
+</script>

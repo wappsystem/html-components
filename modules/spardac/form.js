@@ -47,6 +47,9 @@ m.submit=function(event){
                     $vm.w_login_response.callback();
                 }
             }
+            else{
+                if(_res.qp.refresh) try{ $vm[_res.qp.refresh]();}catch(e){}                
+            }
         }
     });
     //--------------------------------------------------------
