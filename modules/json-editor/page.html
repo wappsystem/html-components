@@ -58,6 +58,11 @@
         }
     }
     else j_record=record;
+    if(record){
+        delete j_record.id;
+        delete j_record.submit_date;
+        delete j_record.submitted_by;
+    }
     //----------------------------------------------------------
     const container = document.getElementById("vm__vmID");
     const options = {
