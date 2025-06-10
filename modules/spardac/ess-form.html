@@ -214,12 +214,9 @@
         </div>
       </div>
   </div>
+</div>
   <script>
       function F__ID(){
-            //-------------------------------------
-            VmInclude:__COMPONENT__/f/form.01.js
-            VmInclude:__CURRENT_PATH__/shared-form.js
-            //-------------------------------------
           $('#btn_legend__ID').on('click',function(){
               if($('#btn_legend__ID').text()=='Hide legend'){
                 $('#btn_legend__ID').text('Show legend');
@@ -256,7 +253,7 @@
           })
           //-------------------------------------
           var load2=m.load;
-              m.load=function(){
+          m.load=function(){
               load2();
               for(var i=0;i<8;i++){
                   set_selected_text(i+1)
@@ -286,17 +283,15 @@
          }
          //-------------------------------------
          var before_submit=m.before_submit;
-            m.before_submit=function(data,index){
+          m.before_submit=function(data,index){
               data.ESS=(parseInt(data.ESS_1)+parseInt(data.ESS_2)+parseInt(data.ESS_3)+parseInt(data.ESS_4)+parseInt(data.ESS_5)+parseInt(data.ESS_6)+parseInt(data.ESS_7)+parseInt(data.ESS_8)).toString();
               return before_submit(data,index);
           }
           //-------------------------------------
       }
   </script>
-   <style>
+<style>
     #D__ID .mt-95 {
     max-width:600px;
 }
-    VmInclude:__CURRENT_PATH__/wappsystem-form.css
 </style>
-</div>

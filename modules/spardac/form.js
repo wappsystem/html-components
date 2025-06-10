@@ -11,7 +11,7 @@ if(m.prefix==undefined) m.prefix="";
 if(m.change_status==undefined) m.change_status=0;
 m.options={self:m.self};
 //-------------------------------------
-m.load=function(){
+m.load=function(){ //start point, called by VM
     $('#F__ID')[0].reset();
     $('#submit__ID').show();
     if(record!=undefined) $vm.deserialize(record,form);
@@ -25,7 +25,7 @@ m.load=function(){
 //-------------------------------
 m.submit=function(event){
     //--------------------------------------------------------
-    event.preventDefault();
+    if(event) event.preventDefault();
     $('#submit__ID').hide();
     //--------------------------------------------------------
     var data={};
@@ -55,9 +55,7 @@ m.submit=function(event){
     //--------------------------------------------------------
 }
 //--------------------------------------------------------
-$('#F__ID').submit(function(event){
-    m.submit(event);}
-)
+$('#F__ID').submit(function(event){  m.submit(event);} )
 //--------------------------------------------------------
-m.before_submit=function(data,{}){}
+m.before_submit=function(data,{}){return true;}
 //--------------------------------------------------------
