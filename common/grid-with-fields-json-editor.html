@@ -27,19 +27,24 @@
     var data=[];
     var debug=true;
     //----------------------------------------------------------
-    //get fields
+    //set headers, fields, formats and items from setup file
     _res.a.split('\n').forEach(line=>{
         if(line.endsWith(".field")){
             var fs=line.replace(".field",'').split(',');
             for (var i=0; i<fs.length; i++){
                 ps=fs[i].split('|');
-                headers.push(ps[0].split('!')[0].trim());
-                fields.push(ps[0].split('!').pop().trim());
+                fields.push(ps[0].split('!')[0].trim());
+                headers.push(ps[0].split('!').pop().trim());
                 if(ps.length>1) formats.push(ps[1]); else formats.push("");
                 if(ps.length>2) items.push(ps[2]); else items.push("");
             }
         }
     })
+    //----------------------------------------------------------
+    var record_add=function(event){
+        $vm._vm_grid_refresh=load; 
+        $vm.query(add_module,_res.sid,{sid:_res.sid,fields:fields,formats:formats,items:items,refresh:"_vm_grid_refresh"})
+    }
     //----------------------------------------------------------
     var record_edit=function(event){
         const rid = event.target.getAttribute('_id');
@@ -106,7 +111,15 @@
             }
             if(res.status=="ok"){
                 data=res.data;
-                if(headers.length==0 && data.length>0) headers=fields=Object.keys(data[0]);
+                if(headers.length==0 && data.length>0){
+                    headers=fields=Object.keys(data[0]);
+                    formats=[];
+                    ites=[];
+                    for(var i=0;i<fields.length;i++){
+                        formats.push("");
+                        items.push("");
+                    }
+                }
                 total=res.total;
                 render(fn);
             }
@@ -115,7 +128,7 @@
     //----------------------------------------------------------
     var fn=100;
     var add=document.getElementById("vm_add__vmID");
-    if(add) add.addEventListener('click', (e) =>  {  $vm._vm_grid_refresh=load; $vm.query(add_module,_res.sid,{sid:_res.sid,fields:fields,formats:formats,items:items,refresh:"_vm_grid_refresh"})})
+    if(add) add.addEventListener('click', (e) =>  { record_add(e); })
     document.getElementById("vm_3all__vmID").addEventListener('click', (e) =>  {    if(fn==3) fn=100; else fn=3;  render(fn);   })
     document.getElementById("vm_load__vmID").addEventListener('click', (e) =>  {    load();    })
     document.getElementById("vm_export__vmID").addEventListener('click', (e) =>  {   $vm.download_json_to_csv($vm.get_file_name(_res.a,"db").replace('.json.db','')+".csv",data);  })

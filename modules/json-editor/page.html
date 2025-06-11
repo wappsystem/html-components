@@ -45,24 +45,24 @@
         }
     }
     var j_record={}
-    if(fields.length!=0){
-        for(var i=0;i<fields.length;i++){ 
-            if(record){
-                var v=record[fields[i]];
-                if(!v) v="";
-                j_record[fields[i]]=v
-            }
-            else{
+   if(record){
+        j_record=record;
+        /*
+        var v=record[fields[i]];
+        if(!v) v="";
+        j_record[fields[i]]=v
+        */
+   }
+   else{
+        if(fields.length!=0){
+            for(var i=0;i<fields.length;i++){ 
                 j_record[fields[i]]="";
-            } 
+            }
         }
-    }
-    else j_record=record;
-    if(record){
-        delete j_record.id;
-        delete j_record.submit_date;
-        delete j_record.submitted_by;
-    }
+   }
+    delete j_record.id;
+    delete j_record.submit_date;
+    delete j_record.submitted_by;
     //----------------------------------------------------------
     const container = document.getElementById("vm__vmID");
     const options = {
