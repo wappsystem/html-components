@@ -1,0 +1,137 @@
+<div style='white-space: nowrap;'>
+    <input id=vm_keyword__vmID placeholder='Keyword search' style='width:180px; border:1px solid #666; height:20px; padding-left:6px' />
+    <input id=vm_page__vmID value="1/20" placeholder='1/20' title="nth page / per page size" style='width:90px; border:1px solid #666; height:20px; padding-left:6px' />
+    <i id=vm_load__vmID class="fas fa-search" style='margin-left:10px'></i>
+    <span class="vm_none">
+    <label id=vm_total__vmID style='margin-left:30px'>0</label>
+    <i id=vm_3all__vmID style='margin-left:20px'><u>3/all</u></i>
+    <i id=vm_export__vmID  class="fas fa-cloud-download-alt" style='margin-left:10px'></i>
+    </span>
+</div>
+<div style='overflow:auto' class=vm-grid ><table id="vm_table__vmID"></table></div>
+<script>
+(function(){
+    //----------------------------------------------------------
+    //var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
+    //----------------------------------------------------------
+    var this_answer=vm_contents.lastElementChild;
+    var edit_module=$vm.get_file_name(_res._source.content,"edit").split('.')[0]; if(edit_module=="") edit_module="Json Editor";  
+    var add_module=$vm.get_file_name(_res._source.content,"add").split('.')[0];   if(add_module=="")  add_module="Json Editor";
+    var view_module=$vm.get_file_name(_res._source.content,"add").split('.')[0];   if(view_module=="")  view_module="Json Viewer";
+
+    var content=_res._source.content;
+    var jsonFile="";  try{jsonFile=$vm.get_content_line(content,"db").replace(".db","")}catch(e){};
+    if(jsonFile=="") alert("No database file is setup.")
+    
+    var headers=[];
+    var db_name=[];
+    var fields=[];
+    var formats=[];
+    var items=[];
+    var total=0;
+    var data=[];
+    var debug=true;
+    //----------------------------------------------------------
+    //set headers, fields, formats and items from setup file
+    _res._source.content.split('\n').forEach(line=>{
+        if(line.endsWith(".field")){
+            var fs=line.replace(".field",'').split(',');
+            for (var i=0; i<fs.length; i++){
+                ps=fs[i].split('|');
+                fields.push(ps[0].split('!')[0].trim());
+                headers.push(ps[0].split('!').pop().trim());
+                if(ps.length>1) formats.push(ps[1]); else formats.push("");
+                if(ps.length>2) items.push(ps[2]); else items.push("");
+            }
+        }
+    })
+    //----------------------------------------------------------
+    var get_add_edit_module=function(list,title){
+        if(list){
+            for(var i=0;i<list.length;i++){
+                if(list[i].title==title){
+                    return list[i];
+                }
+            }
+        }
+        return "";
+    }
+    //----------------------------------------------------------
+    var record_edit=function(event){
+        $vm._vm_grid_refresh=load; 
+        const rid = event.target.getAttribute('_id');
+        //------------------------------
+        var record={}
+        data.forEach((r)=>{
+            if(r["id"]==rid){
+                record=r;
+            }
+        })                
+        //------------------------------
+        var m=get_add_edit_module(_res.m,view_module);
+        if(m==""){
+            $vm.query(edit_module,_res.sid,{rid:rid,record:record,fields:fields,formats:formats,items:items,sid:_res.sid,title:_res.title, _source:_res._source});
+        }
+        else{
+            var res={}
+            res.a=m.content;
+            res._source=m;
+            res.sid="";
+            res.q="&nbsp;";
+            res.qp={rid:rid,record:record}
+            $vm.remove_the_following_answer_div(this_answer)
+            if(m.format.split('|')[0]=="html-web-module") $vm.html_web_module(res);
+            if(m.format.split('|')[0]=="spardac") $vm.spardac(res);
+        }
+    }
+    //----------------------------------------------------------
+    var render=function(fn){
+        document.getElementById("vm_table__vmID").innerHTML=$vm.to_grid_trs_view_header_field(headers,fields,data,fn);
+        document.getElementById("vm_total__vmID").textContent="Total: "+total;
+
+        var icons=document.getElementById("vm_table__vmID").querySelectorAll('i.fa-edit');
+        icons.forEach(icon => {
+            icon.addEventListener('click', (event) => {
+                record_edit(event);
+            });
+        });   
+    }
+    //----------------------------------------------------------
+    var load=function(){
+        var keyword=document.getElementById("vm_keyword__vmID").value;
+        var page=document.getElementById("vm_page__vmID").value;
+        var req={cmd:'json-data-grid', kw:keyword, pg:page, jsonFile:jsonFile}
+        $vm.request(req).then((res)=>{
+            if(res.status=="error"){
+                //alert(res.msg);
+                $vm.msg({_source:{content:res.msg}})
+                return;
+            }
+            if(res.status=="ok"){
+                data=res.data;
+                if(headers.length==0 && data.length>0){
+                    headers=fields=Object.keys(data[0]);
+                    formats=[];
+                    ites=[];
+                    for(var i=0;i<fields.length;i++){
+                        formats.push("");
+                        items.push("");
+                    }
+                }
+                total=res.total;
+                render(fn);
+            }
+        });
+    }
+    //----------------------------------------------------------
+    var fn=100;
+    document.getElementById("vm_3all__vmID").addEventListener('click', (e) =>  {    if(fn==3) fn=100; else fn=3;  render(fn);   })
+    document.getElementById("vm_load__vmID").addEventListener('click', (e) =>  {    load();    })
+    document.getElementById("vm_export__vmID").addEventListener('click', (e) =>  {   $vm.download_json_to_csv($vm.get_file_name(_res._source.content,"db").replace('.json.db','')+".csv",data);  })
+    document.getElementById("vm_keyword__vmID").addEventListener("keyup", function(e){  if (e.keyCode === 13) { load(fn); }   })
+    document.getElementById("vm_page__vmID").addEventListener("keyup", function(e){     if (e.keyCode === 13) { load(fn); }   })
+    //----------------------------------------------------------
+    load(fn);
+    //----------------------------------------------------------
+})();    
+</script>

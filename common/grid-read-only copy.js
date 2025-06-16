@@ -40,10 +40,8 @@
     var load=function(fn){
         var keyword=document.getElementById("vm_keyword__vmID").value;
         var page=document.getElementById("vm_page__vmID").value;
-        var req={cmd:'json-data-grid', kw:keyword, pg:page, sid:_res.sid }
-        console.log(req)    
+        var req={cmd:'json-data-grid', kw:keyword, pg:page }
         $vm.request(req).then((res)=>{
-            console.log(res);
             if(res.status=="ok"){
                 headers=res.headers;
                 rows=res.rows;
