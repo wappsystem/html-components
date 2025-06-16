@@ -84,10 +84,13 @@
 <script>
 (function(){
     //----------------------------------------------------------
-    var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
+    //var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
     new ResizeObserver($vm.responsive).observe(vm_form_container__vmID);
     //----------------------------------------------------------
-    var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
+	var content=_res._source.content;
+	var jsonFile="";  try{jsonFile=$vm.get_content_line(content,"db").replace(".db","")}catch(e){};
+	if(jsonFile=="") alert("No database file is setup.")
+	var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
     var record=undefined; try{ record=_res.qp.record;}catch(e){} 
     var form=document.getElementById("vm_F__vmID");
     var btn=document.getElementById("vm_submit__vmID");
@@ -99,14 +102,14 @@
         if(process_form()){
             if (form.checkValidity()) {
                 var formValues=$vm.serialize(vm_F__vmID)
-                var req={cmd:'json-data-add', rid:rid, form_values:formValues, sid:_res.sid}
+                var req={cmd:'json-data-add', rid:rid, form_values:formValues, jsonFile}
                 $vm.request(req).then((res)=>{
                     if(res.status=="ok"){
-                        alert("Successfully submitted.");
+                        //alert("Successfully submitted.");
                         const form = document.getElementById('vm_F__vmID');
                         const answerDiv = form.closest('.vm-answer');
                         answerDiv.remove();
-                        if(_res.qp.refresh) try{ $vm[_res.qp.refresh]();}catch(e){}
+                    	try{ if($vm._vm_grid_refresh) $vm._vm_grid_refresh();}catch(e){}
                     }
                     else alert(res.msg);
                 });

@@ -1,0 +1,39 @@
+{
+    "type": "bar",
+    "data": {
+        "datasets": [{
+            "borderWidth": 1
+        }]
+    },
+    "options": {
+        "plugins": {
+            "datalabels": {
+                "display": false
+            },
+            "title": {
+                "display": true,
+                "text": "", 
+                "color": "#fff", 
+                "font": {
+                    "size": 20
+                }
+            },
+            "legend": {
+                "display": false
+            }            
+        },
+        "scales": {
+            "x": {
+                "ticks": {
+                    "color": "#fff"
+                }
+            },
+            "y": {
+                "beginAtZero": true,
+                "ticks": {
+                    "color": "#fff"
+                }
+            }
+        }
+    }
+}

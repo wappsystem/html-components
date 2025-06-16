@@ -8,27 +8,22 @@
 <script>
 (function(){
     //----------------------------------------------------------
-    var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
-    //----------------------------------------------------------
-
 	var page=document.getElementById("page__vmID");
 	var input=page.querySelectorAll("input");
 	var button=page.querySelector("button");
 	var login=function(){
 		$vm.request({
-			cmd:"password-match",
-			json: "/Wappsystem/clinical-trial-test-1/Data Management/_data/participant.json",
+			cmd:"json-data-match",
+			json: "/wappsystem/sfix/d1/participant.json",
 			password_field:"_Password",
 			id:input[0].value,
 			password:input[1].value,
 			field1:"Subject_Initials"
 		}).then((res)=>{
-			console.log(res)
 			if(res.status=="ok"){
-				$vm.w_login_response=res.a;
 				const answerDiv = page.closest('.vm-answer');
 				answerDiv.remove();
-				$vm.query("Clinical trial visit 1 data entry");
+				if(_res.callback) _res.callback(res.a.Subject_Initials,res.a.id);  
 			}
 			else{
 				alert("Invalid Password");
@@ -36,11 +31,6 @@
 		});
 	}
 	button.addEventListener('click',function(e){ login(); })
-	input[1].addEventListener("keyup", function(e){ if (e.keyCode === 13) {  login();  }  
-})
-
+	input[1].addEventListener("keyup", function(e){ if (e.keyCode === 13) {  login();  }  })
 })();
 </script>
-<stype>
-
-</stype>

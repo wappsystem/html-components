@@ -1,12 +1,17 @@
 <div id="vm__vmID" style="height: 400px;width:100%"></div>
 <div>
-    <button id=vm_submit__vmID >Submit</button> <button id=vm_close__vmID >Cloce</button>
+    <button id=vm_submit__vmID >Submit</button> 
+    <!--
+    <button id=vm_close__vmID >Cloce</button>
     <label style='margin-left: 30px; font-size:80%' id=vm_message__vmID></label>
+    -->
 </div>
 <script>
-(function(){
+(()=>{
     //----------------------------------------------------------
-    var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
+    var content=_res.qp._source.content;
+    var jsonFile="";  try{jsonFile=$vm.get_content_line(content,"db").replace(".db","")}catch(e){};
+    if(jsonFile=="") alert("No database file is setup.")
     //----------------------------------------------------------
     var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
     var record=undefined; try{ record=_res.qp.record;}catch(e){} 
@@ -26,10 +31,10 @@
     if(fields.length!=0){
         for(var i=0;i<fields.length;i++){
             switch(formats[i]){
-                case 'number': schema.properties[fields[i]]={type: "number"}; break;
-                case 'drop':   schema.properties[fields[i]]={type: "string", enum: items[i].split(';')}; break;
-                case "mail":   schema.properties[fields[i]]={type: "string",format:"email"}; break;
-                case "date":   schema.properties[fields[i]]={
+                case 'number':  schema.properties[fields[i]]={type: "number"}; break;
+                case 'drop':    schema.properties[fields[i]]={type: "string", enum: items[i].split(';')}; break;
+                case "mail":    schema.properties[fields[i]]={type: "string",format:"email"}; break;
+                case "date":    schema.properties[fields[i]]={
                         type: "string", 
                         options: {
                             inputAttributes: {
@@ -47,11 +52,6 @@
     var j_record={}
    if(record){
         j_record=record;
-        /*
-        var v=record[fields[i]];
-        if(!v) v="";
-        j_record[fields[i]]=v
-        */
    }
    else{
         if(fields.length!=0){
@@ -85,20 +85,24 @@
         e.preventDefault(); e.stopPropagation(); 
         const updatedRecord = editor.get();
         if(updatedRecord==undefined) return;
-        var req={cmd:'json-data-add', rid:rid, form_values:updatedRecord, sid:_res.qp.sid}
+        var req={cmd:'json-data-add', rid:rid, form_values:updatedRecord, jsonFile:jsonFile}
         $vm.request(req).then((res)=>{
             if(res.status=="ok"){
-                msg.textContent="Successfully submitted.";
-                if(_res.qp.refresh) try{ $vm[_res.qp.refresh]();}catch(e){}
+                //msg.textContent="Successfully submitted.";
+                const answerDiv = div.closest('.vm-answer');
+                answerDiv.remove();
+                try{ if($vm._vm_grid_refresh) $vm._vm_grid_refresh();}catch(e){}
             }
         });
     });
     //----------------------------------------------------------
+    /*
     close.addEventListener('click', (e) =>  { 
         e.preventDefault(); e.stopPropagation(); 
         const answerDiv = div.closest('.vm-answer');
         answerDiv.remove();
     });
     //----------------------------------------------------------
+    */
 })();    
 </script>
