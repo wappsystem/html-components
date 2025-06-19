@@ -1,31 +1,29 @@
 (async ()=>{
     var link="https://wappsystem.github.io/html-components/test/sfix-panel-1.txt";
-    var content=await $vm.fetch(link);
-    content=content.replace(/\r/g,'');
+    var configuration=await $vm.fetch(link);
+    configuration=configuration.replace(/\r/g,'');
     var m=[];
-    var start=function(){
-        var modules=content.split("\n----------------------------------------------------------------------------------------------------\n");
+    var process_configuration=function(){
+        var modules=configuration.split("\n----------------------------------------------------------------------------------------------------\n");
         modules.forEach(a=>{
-            var ss=a.split('\n-\n');
-            if(ss.length==3){
-                var o={}
-                o.title=ss[0];
-                o.format=ss[1];
-                o.content=ss[2];
-                m.push(o);
-            }
+            var lines = a.split('\n').map(line => line.trim());
+            var o={}
+            o.title=lines[0].trim();
+            o.format=lines[1].trim();
+            o.content=lines.slice(2).join('\n');
+            o.module=o.content;
+            m.push(o);
         })
     }
-    var load_panel=function(){
+    var load_first_module=function(){
         var res={}
-        res._source=m[0];
-        res.sid="";
         res.q="";
+        res._source=m[0];
         res.m=m;
         $vm.html_web_module(res);
     }
     //--------------------------------
-    start();
-    load_panel();
+    process_configuration();
+    load_first_module();
     //--------------------------------
 })()

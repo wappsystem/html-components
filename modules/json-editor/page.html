@@ -9,7 +9,7 @@
 <script>
 (()=>{
     //----------------------------------------------------------
-    var content=_res.qp._source.content;
+    var content=_res.qp._source.module;
     var jsonFile="";  try{jsonFile=$vm.get_content_line(content,"db").replace(".db","")}catch(e){};
     if(jsonFile=="") alert("No database file is setup.")
     //----------------------------------------------------------

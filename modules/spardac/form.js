@@ -1,7 +1,4 @@
 //----------------------------------------------------------
-//var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
-console.log(_res);
-//----------------------------------------------------------
 var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
 var record=undefined; try{ record=_res.qp.record;}catch(e){} 
 var form=document.getElementById("F__ID");
@@ -11,7 +8,7 @@ m.input={}
 if(m.prefix==undefined) m.prefix="";
 if(m.change_status==undefined) m.change_status=0;
 m.options={self:m.self};
-var content=_res._source.content;
+var content=_res._source.module;
 var jsonFile="";  try{jsonFile=$vm.get_content_line(content,"db").replace(".db","")}catch(e){};
 if(jsonFile=="") alert("No database file is setup.")
 //-------------------------------------
@@ -52,7 +49,6 @@ m.submit=function(event){
     var req={cmd:'json-data-add', rid:rid, form_values:data, jsonFile:jsonFile}
     $vm.request(req).then((res)=>{
         if(res.status=="ok"){
-            console.log(res);
             const answerDiv = form.closest('.vm-answer');
             answerDiv.remove();
 			if(_res.grid_refresh) _res.grid_refresh();  

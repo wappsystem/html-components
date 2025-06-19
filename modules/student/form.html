@@ -87,7 +87,7 @@
     //var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
     new ResizeObserver($vm.responsive).observe(vm_form_container__vmID);
     //----------------------------------------------------------
-	var content=_res._source.content;
+	var content=_res._source.module;
 	var jsonFile="";  try{jsonFile=$vm.get_content_line(content,"db").replace(".db","")}catch(e){};
 	if(jsonFile=="") alert("No database file is setup.")
 	var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
