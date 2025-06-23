@@ -4,7 +4,7 @@ https://wappsystem.github.io/html-components/test/sfix-panel-1.html
 ----------------------------------------------------------------------------------------------------
 Participant
 html-web-module|li
-https://wappsystem.github.io/html-components/common/grid-with-fields-json-editor.html
+https://wappsystem.github.io/html-components/common/grid-wapp.html
 /wappsystem/sfix/d1/participant.json.db
 Participant Form.add
 Participant Form.edit
@@ -18,7 +18,7 @@ https://wappsystem.github.io/html-components/modules/spardac/participant-form.ht
 ----------------------------------------------------------------------------------------------------
 ESS Visit 1
 html-web-module|li
-https://wappsystem.github.io/html-components/common/grid-with-fields-json-editor.html
+https://wappsystem.github.io/html-components/common/grid-wapp.html
 /wappsystem/sfix/d2/ess-1.json.db
 ESS Form.add
 ESS Form.edit
@@ -32,5 +32,5 @@ https://wappsystem.github.io/html-components/modules/spardac/ess-form.html
 ----------------------------------------------------------------------------------------------------
 EQ-5D-5L Visit 1
 html-web-module|li
-https://wappsystem.github.io/html-components/common/grid-with-fields-json-editor.html
+https://wappsystem.github.io/html-components/common/grid-wapp.html
 /wappsystem/sfix/d2/eq-5d-5l-1.json.db

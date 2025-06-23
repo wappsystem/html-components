@@ -9,15 +9,17 @@
 <script>
 (()=>{
     //----------------------------------------------------------
-    var content=_res.qp._source.module;
-    var jsonFile="";  try{jsonFile=$vm.get_content_line(content,"db").replace(".db","")}catch(e){};
+	var arr=_arr;
+	var qp=_qp;
+    //var content=_res.qp._source.module;
+    var jsonFile="";  try{jsonFile=$vm.get_file_name_from_array(qp.arr,"db").replace(".db","")}catch(e){};
     if(jsonFile=="") alert("No database file is setup.")
     //----------------------------------------------------------
-    var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
-    var record=undefined; try{ record=_res.qp.record;}catch(e){} 
-    var fields=[]; try{ fields=_res.qp.fields;}catch(e){} 
-    var formats=[]; try{ formats=_res.qp.formats;}catch(e){} 
-    var items=[]; try{ items=_res.qp.items;}catch(e){} 
+    var rid=undefined; try{ rid=qp.rid;}catch(e){} 
+    var record=undefined; try{ record=qp.record;}catch(e){} 
+    var fields=[]; try{ fields=qp.fields;}catch(e){} 
+    var formats=[]; try{ formats=qp.formats;}catch(e){} 
+    var items=[]; try{ items=qp.items;}catch(e){} 
     var submit=document.getElementById("vm_submit__vmID");
     var close=document.getElementById("vm_close__vmID");
     var msg=document.getElementById("vm_message__vmID");

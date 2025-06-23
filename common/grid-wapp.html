@@ -12,8 +12,10 @@
 <div style='overflow:auto' class=vm-grid ><table id="vm_table__vmID"></table></div>
 <script>
 (function(){
+    //----------------------------------------------------------
     var arr=_arr;
 	var qp=_qp;
+    var item_list=$vm.wappsystem.item_list;
     //----------------------------------------------------------
     var this_answer=vm_contents.lastElementChild;
     var edit_module=$vm.get_file_name_from_array(arr,"edit").split('.')[0]; if(edit_module=="") edit_module="Json Editor";  
@@ -46,11 +48,11 @@
         }
     })
     //----------------------------------------------------------
-    var get_add_edit_module=function(list,title){
-        if(list){
-            for(var i=0;i<list.length;i++){
-                if(list[i].title==title){
-                    return list[i];
+    var get_add_edit_module=function(name){
+        if(item_list){
+            for(var i=0;i<item_list.length;i++){
+                if(item_list[i].name==name){
+                    return item_list[i];
                 }
             }
         }
@@ -59,40 +61,19 @@
     //----------------------------------------------------------
     var record_add=function(event){
         $vm._vm_grid_refresh=load; 
-        $vm.query(add_module,null,{fields:fields,formats:formats,items:items,arr:arr})
-        /*
-        $vm._vm_grid_refresh=load; 
-        var m=get_add_edit_module(_res.m,add_module);
-        if(m==""){
-            $vm.query(add_module,_res.sid,{sid:_res.sid,fields:fields,formats:formats,items:items, _source:_res._source})
+        var item=get_add_edit_module(add_module);
+        if(item==""){
+            $vm.query(add_module,arr,{fields:fields,formats:formats,items:items,arr:arr})
         }
         else{
-            var res={}
-            res.a=m.content;
-            res._source=m;
-            res.sid="";
-            res.q="&nbsp;";
-            res.grid_refresh=load
-            $vm.remove_the_following_answer_div(this_answer)
-            if(m.format.split('|')[0]=="html-web-module") $vm.html_web_module(res);
-            if(m.format.split('|')[0]=="spardac") $vm.spardac(res);
+            var res={_source:{content:item.content}}
+            $vm.item(res)
         }
-        */
     }
     //----------------------------------------------------------
     var record_edit=function(event){
         $vm._vm_grid_refresh=load; 
         const rid = event.target.getAttribute('_id');
-        var record={}
-        data.forEach((r)=>{
-            if(r["id"]==rid){
-                record=r;
-            }
-        })                
-        $vm.query(edit_module,arr,{rid:rid,record:record,fields:fields,formats:formats,items:items,arr:arr});
-        /*
-        $vm._vm_grid_refresh=load; 
-        const rid = event.target.getAttribute('_id');
         //------------------------------
         var record={}
         data.forEach((r)=>{
@@ -101,22 +82,14 @@
             }
         })                
         //------------------------------
-        var m=get_add_edit_module(_res.m,edit_module);
-        if(m==""){
-            $vm.query(edit_module,_res.sid,{rid:rid,record:record,fields:fields,formats:formats,items:items,sid:_res.sid,title:_res.title, _source:_res._source});
+        var item=get_add_edit_module(edit_module);
+        if(item==""){
+            $vm.query(edit_module,arr,{rid:rid,record:record,fields:fields,formats:formats,items:items,arr:arr});
         }
         else{
-            var res={}
-            res.a=m.content;
-            res._source=m;
-            res.sid="";
-            res.q="&nbsp;";
-            res.qp={rid:rid,record:record}
-            $vm.remove_the_following_answer_div(this_answer)
-            if(m.format.split('|')[0]=="html-web-module") $vm.html_web_module(res);
-            if(m.format.split('|')[0]=="spardac") $vm.spardac(res);
+            var res={_source:{content:item.content},qp:{rid:rid,record:record}}
+            $vm.item(res)
         }
-        */
     }
     //----------------------------------------------------------
     var record_delete=function(event){
@@ -158,7 +131,6 @@
     var load=function(){
         var keyword=document.getElementById("vm_keyword__vmID").value;
         var page=document.getElementById("vm_page__vmID").value;
-        //var req={cmd:'json-data-grid', kw:keyword, pg:page, sid:_res.sid ,title:_res.title}
         var req={cmd:'json-data-grid', kw:keyword, pg:page, jsonFile:jsonFile}
         $vm.request(req).then((res)=>{
             if(res.status=="error"){

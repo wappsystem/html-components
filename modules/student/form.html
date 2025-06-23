@@ -87,11 +87,13 @@
     //var _res={}; try{ _res=JSON.parse(`_vm_res_`);}catch(e){console.log(e);} 
     new ResizeObserver($vm.responsive).observe(vm_form_container__vmID);
     //----------------------------------------------------------
-	var content=_res._source.module;
-	var jsonFile="";  try{jsonFile=$vm.get_content_line(content,"db").replace(".db","")}catch(e){};
+	//var content=_res._source.module;
+	var arr=_arr;
+	var qp=_qp;
+	var jsonFile="";  try{jsonFile=$vm.get_file_name_from_array(arr,"db").replace(".db","")}catch(e){};
 	if(jsonFile=="") alert("No database file is setup.")
-	var rid=undefined; try{ rid=_res.qp.rid;}catch(e){} 
-    var record=undefined; try{ record=_res.qp.record;}catch(e){} 
+	var rid=undefined; try{ rid=qp.rid;}catch(e){} 
+    var record=undefined; try{ record=qp.record;}catch(e){} 
     var form=document.getElementById("vm_F__vmID");
     var btn=document.getElementById("vm_submit__vmID");
     var msg=document.getElementById("vm_message__vmID");

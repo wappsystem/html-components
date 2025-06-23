@@ -5,11 +5,16 @@
 </div>
 <script>
 (async ()=>{
+    //-----------------------------------------------------
+    var arr=_arr;
+    var qp=_qp;
+    //-----------------------------------------------------
+    var item_list=$vm.wappsystem.item_list
     var this_module=vm_contents.lastElementChild;
     var txt=""
-    for(var i=0; i<_res.m.length; i++){
-        if(_res.m[i].format.split('|').pop()=='li'){
-            txt+="<li><u q="+i+">"+_res.m[i].title+"</u></li>"
+    for(var i=0; i<item_list.length; i++){
+        if(item_list[i].content[1].split('|').pop()=='li'){
+            txt+="<li><u q="+i+">"+item_list[i].content[0]+"</u></li>"
         }
     }
     var ul=document.getElementById("vm__vmID").querySelector('ul');
@@ -19,13 +24,10 @@
         el.addEventListener('click', (e) => {
             e.preventDefault();
             e.stopPropagation();
-            var q=el.getAttribute('q');
-            var res={}
-            res._source=_res.m[q];
-            res.q="&nbsp;";
-            res.m=_res.m;
+            var i=el.getAttribute('q');
+            var res={_source:{content:item_list[i].content}}
+            $vm.item(res);
             $vm.remove_the_following_answer_div(this_module)
-            $vm.html_web_module(res);
         });
     });
 })();

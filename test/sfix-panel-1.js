@@ -1,29 +1,27 @@
 (async ()=>{
-    var link="https://wappsystem.github.io/html-components/test/sfix-panel-1.txt";
-    var configuration=await $vm.fetch(link);
-    configuration=configuration.replace(/\r/g,'');
-    var m=[];
-    var process_configuration=function(){
-        var modules=configuration.split("\n----------------------------------------------------------------------------------------------------\n");
-        modules.forEach(a=>{
-            var lines = a.split('\n').map(line => line.trim());
-            var o={}
-            o.title=lines[0].trim();
-            o.format=lines[1].trim();
-            o.content=lines.slice(2).join('\n');
-            o.module=o.content;
-            m.push(o);
+    //------------------------------------
+    //app start from here
+    if(!$vm.wappsystem) $vm.wappsystem={}
+    $vm.wappsystem.item_list=[]
+    //------------------------------------
+    var build_items_base=async function(){
+        var link="https://wappsystem.github.io/html-components/test/sfix-panel-1.txt";
+        var all_items=await $vm.fetch(link);
+        all_items=all_items.replace(/\r/g,'');
+        var items=all_items.split("\n----------------------------------------------------------------------------------------------------\n");
+        items.forEach(item=>{
+            var lines = item.split('\n').map(line => line.trim());
+            $vm.wappsystem.item_list.push({name:lines[0],content:lines});
         })
     }
+    await build_items_base();
+    //------------------------------------
     var load_first_module=function(){
-        var res={}
-        res.q="";
-        res._source=m[0];
-        res.m=m;
-        $vm.html_web_module(res);
+        var res={_source:{content:$vm.wappsystem.item_list[0].content}}
+        $vm.item(res);
     }
-    //--------------------------------
-    process_configuration();
+    //------------------------------------
     load_first_module();
-    //--------------------------------
+    //------------------------------------
 })()
+

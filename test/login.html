@@ -8,6 +8,9 @@
 <script>
 (function(){
     //----------------------------------------------------------
+	var arr=_arr;
+	var qp=_qp;
+    //----------------------------------------------------------
 	var page=document.getElementById("page__vmID");
 	var input=page.querySelectorAll("input");
 	var button=page.querySelector("button");
@@ -23,7 +26,7 @@
 			if(res.status=="ok"){
 				const answerDiv = page.closest('.vm-answer');
 				answerDiv.remove();
-				if(_res.callback) _res.callback(res.a.Subject_Initials,res.a.id);  
+				if($vm.wappsystem.callback) $vm.wappsystem.callback(res.a.Subject_Initials,res.a.id);  
 			}
 			else{
 				alert("Invalid Password");
