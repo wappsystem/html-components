@@ -362,10 +362,10 @@
         </div>
     </div>
     <script>
-        function F__ID() {
+        (function(){
             //-------------------------------------
-            VmInclude: __COMPONENT__/f/form.01.js
-            VmInclude: __CURRENT_PATH__/shared-form.js
+            //VmInclude: __COMPONENT__/f/form.01.js
+            //VmInclude: __CURRENT_PATH__/shared-form.js
             //-------------------------------------
             var N = 6;
             var current_I = 1;
@@ -452,9 +452,9 @@
                 return before_submit(data, index);
             }
             //-------------------------------------
-
-        }
-      //------------------------------------
+            m.load();
+        })();    
+    //------------------------------------
     </script>
     <style>
         #D__ID #indicator__ID {

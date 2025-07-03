@@ -364,7 +364,7 @@
       </div>
 </div>      
 <script>
-      function F__ID(){
+      (function(){
           $('#btn_legend__ID').on('click',function(){
               if($('#btn_legend__ID').text()=='Hide legend'){
                 $('#btn_legend__ID').text('Show legend');
@@ -461,7 +461,8 @@
             return before_submit(data,index); 
           }
           //-------------------------------------
-      }
+          m.load();
+        })();    
 </script>
 <style>
     #D__ID .mt-95 {

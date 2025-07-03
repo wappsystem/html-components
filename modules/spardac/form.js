@@ -13,12 +13,12 @@ m.options={self:m.self};
 var jsonFile="";  try{jsonFile=$vm.get_file_name_from_array(arr,"db").replace(".db","")}catch(e){};
 if(jsonFile=="") alert("No database file is setup.")
 //-------------------------------------
-m.load=function(){ //start point, called by VM
+m.load=function(){ 
     $('#F__ID')[0].reset();
     $('#submit__ID').show();
     if(record!=undefined) $vm.deserialize(record,form);
     else{
-        if($vm.wappsystem.Participant){
+        if($vm.wappsystem && $vm.wappsystem.Participant){
             form.querySelector('input[name="Participant_uid"]').value=$vm.wappsystem.Participant_uid; 
             form.querySelector('input[name="Participant"]').value=$vm.wappsystem.Participant; 
             var req={cmd:"json-data-exist-check", jsonFile:jsonFile, field:"Participant_uid", value:$vm.wappsystem.Participant_uid}
@@ -66,3 +66,4 @@ $('#F__ID').submit(function(event){  m.submit(event);} )
 //--------------------------------------------------------
 m.before_submit=function(data,{}){return true;}
 //--------------------------------------------------------
+m.load();

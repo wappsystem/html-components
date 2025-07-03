@@ -10,7 +10,7 @@ Participant Form.add
 Participant Form.edit
 ----------------------------------------------------------------------------------------------------
 Participant Form
-spardac
+html-web-module
 https://wappsystem.github.io/html-components/modules/spardac/form.js
 https://wappsystem.github.io/html-components/modules/spardac/form.css
 https://wappsystem.github.io/html-components/modules/spardac/participant-form.html
@@ -24,7 +24,7 @@ ESS Form.add
 ESS Form.edit
 ----------------------------------------------------------------------------------------------------
 ESS Form
-spardac
+html-web-module
 https://wappsystem.github.io/html-components/modules/spardac/form.js
 https://wappsystem.github.io/html-components/modules/spardac/form.css
 https://wappsystem.github.io/html-components/modules/spardac/ess-form.html

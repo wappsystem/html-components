@@ -77,7 +77,7 @@
 		</div>
 	</div>
 	<script>
-		function F__ID() {
+      (function(){
 			var load = m.load;
 			m.load = function () {
 				load();
@@ -116,7 +116,8 @@
 				index.I2=nd.getFullYear()+"-"+$vm.pad(nd.getMonth()+1,2)+"-"+$vm.pad(nd.getDate(),2);
 			}
 			//-------------------------------------
-		}
+          m.load();
+        })();    
 	</script>
 	<style>
 		#D__ID .mt-95 {

@@ -237,10 +237,10 @@
 						</form>
 					</section>
 					<script>
-						function F__ID() {
+      					(function(){
 							//-------------------------------------
-							VmInclude: __COMPONENT__/f/form.01.js
-							VmInclude:__CURRENT_PATH__/shared-form.js
+							//VmInclude: __COMPONENT__/f/form.01.js
+							//VmInclude:__CURRENT_PATH__/shared-form.js
 							//-------------------------------------
 							var before_submit = m.before_submit;
 							m.before_submit = function (data, index) {
@@ -256,13 +256,12 @@
 								return before_submit(data, index);
 							}
 							//-------------------------------------
-						}
+							m.load();
+						})();    
 					</script>
 					<style>
 						#D__ID .mt-95 {
 							max-width: 600px;
 						}
-
-						VmInclude:__CURRENT_PATH__/wappsystem-form.css
 					</style>
 				</div>

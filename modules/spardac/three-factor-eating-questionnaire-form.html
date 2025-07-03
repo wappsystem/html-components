@@ -391,7 +391,7 @@
   </div>
   </div>
   <script>
-    function F__ID() {
+      (function(){
       var before_submit = m.before_submit;
       m.before_submit = function (data, index) {
         data.TFEQ_Uncontrolled = (parseInt(data.TFEQ_1) + parseInt(data.TFEQ_4) + parseInt(data.TFEQ_5) + parseInt(data.TFEQ_7) + parseInt(data.TFEQ_8) + parseInt(data.TFEQ_9) + parseInt(data.TFEQ_13) + parseInt(data.TFEQ_14) + parseInt(data.TFEQ_17)).toString();
@@ -401,7 +401,8 @@
         return before_submit(data, index);
       }
       //-------------------------------------
-    }
+          m.load();
+        })();    
   </script>
   <style>
     #D__ID .mt-95 {

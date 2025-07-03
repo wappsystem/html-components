@@ -251,10 +251,10 @@
 		</form>
 	</section>
 	<script>
-		function F__ID(){
+      (function(){
 			//-------------------------------------
-            VmInclude:__COMPONENT__/f/form.01.js
-            VmInclude:__CURRENT_PATH__/shared-form.js
+            //VmInclude:__COMPONENT__/f/form.01.js
+            //VmInclude:__CURRENT_PATH__/shared-form.js
 			//-------------------------------------
 			var before_submit=m.before_submit;
 	        m.before_submit=function(data){
@@ -271,7 +271,8 @@
 	            return before_submit(data);
 			}
 			//-------------------------------------
-		}
+          m.load();
+      })();    
 	</script>
 	<style>
 		#form_container__ID{

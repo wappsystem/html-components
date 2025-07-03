@@ -16,9 +16,15 @@
 	var qp=_qp;
     //----------------------------------------------------------
     var this_answer=vm_contents.lastElementChild;
-    var edit_module=$vm.get_file_name_from_array(arr,"edit").split('.')[0]; if(edit_module=="") edit_module="Json Editor";  
-    var add_module=$vm.get_file_name_from_array(arr,"add").split('.')[0];   if(add_module=="")  add_module="Json Editor";
+    
+    var edit_module_arr=$vm.get_elements_from_array(arr,"edit"); 
+    if(edit_module_arr.length==0){ edit_module_arr=["https://wappsystem.github.io/html-components/modules/json-editor/page.html"]; }
+    edit_module_arr.push($vm.get_file_name_from_array(arr,"db"));
 
+    var add_module_arr=$vm.get_elements_from_array(arr,"add"); 
+    if(add_module_arr.length==0){ add_module_arr=["https://wappsystem.github.io/html-components/modules/json-editor/page.html"]; }
+    add_module_arr.push($vm.get_file_name_from_array(arr,"db"));
+   
     //var content=_res._source.module;
     var jsonFile="";  try{jsonFile=$vm.get_file_name_from_array(arr,"db").replace(".db","")}catch(e){};
     if(jsonFile=="") alert("No database file is setup.")
@@ -59,25 +65,7 @@
     //----------------------------------------------------------
     var record_add=function(event){
         $vm._vm_grid_refresh=load; 
-        $vm.query(add_module,null,{fields:fields,formats:formats,items:items,arr:arr})
-        /*
-        $vm._vm_grid_refresh=load; 
-        var m=get_add_edit_module(_res.m,add_module);
-        if(m==""){
-            $vm.query(add_module,_res.sid,{sid:_res.sid,fields:fields,formats:formats,items:items, _source:_res._source})
-        }
-        else{
-            var res={}
-            res.a=m.content;
-            res._source=m;
-            res.sid="";
-            res.q="&nbsp;";
-            res.grid_refresh=load
-            $vm.remove_the_following_answer_div(this_answer)
-            if(m.format.split('|')[0]=="html-web-module") $vm.html_web_module(res);
-            if(m.format.split('|')[0]=="spardac") $vm.spardac(res);
-        }
-        */
+        $vm.html_web_module({arr:add_module_arr,qp:{fields:fields,formats:formats,items:items,arr:arr}})
     }
     //----------------------------------------------------------
     var record_edit=function(event){
@@ -88,35 +76,8 @@
             if(r["id"]==rid){
                 record=r;
             }
-        })                
-        $vm.query(edit_module,arr,{rid:rid,record:record,fields:fields,formats:formats,items:items,arr:arr});
-        /*
-        $vm._vm_grid_refresh=load; 
-        const rid = event.target.getAttribute('_id');
-        //------------------------------
-        var record={}
-        data.forEach((r)=>{
-            if(r["id"]==rid){
-                record=r;
-            }
-        })                
-        //------------------------------
-        var m=get_add_edit_module(_res.m,edit_module);
-        if(m==""){
-            $vm.query(edit_module,_res.sid,{rid:rid,record:record,fields:fields,formats:formats,items:items,sid:_res.sid,title:_res.title, _source:_res._source});
-        }
-        else{
-            var res={}
-            res.a=m.content;
-            res._source=m;
-            res.sid="";
-            res.q="&nbsp;";
-            res.qp={rid:rid,record:record}
-            $vm.remove_the_following_answer_div(this_answer)
-            if(m.format.split('|')[0]=="html-web-module") $vm.html_web_module(res);
-            if(m.format.split('|')[0]=="spardac") $vm.spardac(res);
-        }
-        */
+        })
+        $vm.html_web_module({arr:edit_module_arr,qp:{rid:rid,record:record,fields:fields,formats:formats,items:items,arr:arr}})
     }
     //----------------------------------------------------------
     var record_delete=function(event){
