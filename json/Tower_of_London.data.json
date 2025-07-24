@@ -1,0 +1,12 @@
+{
+    "f":"html-web-module",
+    "s":[
+        "https://wappsystem.github.io/html-components/common/grid-with-fields-json-editor.html",
+        
+        "https://wappsystem.github.io/html-components/modules/spardac/form.js.add",
+        "https://wappsystem.github.io/html-components/modules/spardac/form.css.add",
+        "https://wappsystem.github.io/html-components/modules/spardac/tower-london-form.html.add",
+        
+        "/demo/tower-london.json.db"
+    ]
+}

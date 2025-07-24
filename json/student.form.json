@@ -1,0 +1,8 @@
+{
+    "f":"html-web-module",
+    "s":[
+        "https://wappsystem.github.io/html-components/modules/student/form.html",
+        "https://wappsystem.github.io/html-components/common/form.css",
+        "/demo/student.json.db"
+    ]
+}

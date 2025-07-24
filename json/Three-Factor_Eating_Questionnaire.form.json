@@ -1,0 +1,9 @@
+{
+    "f":"html-web-module",
+    "s":[
+        "https://wappsystem.github.io/html-components/modules/spardac/form.js",
+        "https://wappsystem.github.io/html-components/modules/spardac/form.css",
+        "https://wappsystem.github.io/html-components/modules/spardac/three-factor-eating-questionnaire-form.html",
+        "/demo/Three-Factor Eating Questionnaire.json.db"
+    ]
+}

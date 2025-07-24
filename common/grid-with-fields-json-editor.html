@@ -65,7 +65,8 @@
     //----------------------------------------------------------
     var record_add=function(event){
         $vm._vm_grid_refresh=load; 
-        $vm.html_web_module({arr:add_module_arr,qp:{fields:fields,formats:formats,items:items,arr:arr}})
+        //$vm.html_web_module({arr:add_module_arr,qp:{fields:fields,formats:formats,items:items,arr:arr}})
+        $vm.html_web_module({a:["","",add_module_arr],qp:{fields:fields,formats:formats,items:items,arr:arr}})
     }
     //----------------------------------------------------------
     var record_edit=function(event){
@@ -77,7 +78,8 @@
                 record=r;
             }
         })
-        $vm.html_web_module({arr:edit_module_arr,qp:{rid:rid,record:record,fields:fields,formats:formats,items:items,arr:arr}})
+        //$vm.html_web_module({arr:edit_module_arr,qp:{rid:rid,record:record,fields:fields,formats:formats,items:items,arr:arr}})
+        $vm.html_web_module({a:["","",edit_module_arr],qp:{rid:rid,record:record,fields:fields,formats:formats,items:items,arr:arr}})
     }
     //----------------------------------------------------------
     var record_delete=function(event){
