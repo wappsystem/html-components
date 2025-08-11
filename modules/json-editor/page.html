@@ -8,103 +8,115 @@
 </div>
 <script>
 (()=>{
-    //----------------------------------------------------------
-	var arr=_arr;
-	var qp=_qp;
-    //var content=_res.qp._source.module;
-    var jsonFile="";  try{jsonFile=$vm.get_file_name_from_array(qp.arr,"db").replace(".db","")}catch(e){};
-    if(jsonFile=="") alert("No database file is setup.")
-    //----------------------------------------------------------
-    var rid=undefined; try{ rid=qp.rid;}catch(e){} 
-    var record=undefined; try{ record=qp.record;}catch(e){} 
-    var fields=[]; try{ fields=qp.fields;}catch(e){} 
-    var formats=[]; try{ formats=qp.formats;}catch(e){} 
-    var items=[]; try{ items=qp.items;}catch(e){} 
-    var submit=document.getElementById("vm_submit__vmID");
-    var close=document.getElementById("vm_close__vmID");
-    var msg=document.getElementById("vm_message__vmID");
-    var div=document.getElementById("vm__vmID");
-    //----------------------------------------------------------
-    var schema={
-        type: "object",
-        properties: {
-        }
-    };
-    if(fields.length!=0){
-        for(var i=0;i<fields.length;i++){
-            switch(formats[i]){
-                case 'number':  schema.properties[fields[i]]={type: "number"}; break;
-                case 'drop':    schema.properties[fields[i]]={type: "string", enum: items[i].split(';')}; break;
-                case "mail":    schema.properties[fields[i]]={type: "string",format:"email"}; break;
-                case "date":    schema.properties[fields[i]]={
-                        type: "string", 
-                        options: {
-                            inputAttributes: {
-                                placeholder: "dd/mm/yyyy"
-                            }
-                        },
-                        pattern: "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\\d{4}$",
-                        description: "Enter a date in the format dd/mm/yyyy"  
-                    }; 
-                    break;
-                default: schema.properties[fields[i]]={type: "string"}; break;
-            }            
-        }
-    }
-    var j_record={}
-   if(record){
-        j_record=record;
-   }
-   else{
+    var after_load=function(){
+        //----------------------------------------------------------
+        var arr=_arr;
+        var qp=_qp;
+        //var content=_res.qp._source.module;
+        var jsonFile="";  try{jsonFile=$vm.get_file_name_from_array(qp.arr,"db").replace(".db","")}catch(e){};
+        if(jsonFile=="") alert("No database file is setup.")
+        //----------------------------------------------------------
+        var rid=undefined; try{ rid=qp.rid;}catch(e){} 
+        var record=undefined; try{ record=qp.record;}catch(e){} 
+        var fields=[]; try{ fields=qp.fields;}catch(e){} 
+        var formats=[]; try{ formats=qp.formats;}catch(e){} 
+        var items=[]; try{ items=qp.items;}catch(e){} 
+        var submit=document.getElementById("vm_submit__vmID");
+        var close=document.getElementById("vm_close__vmID");
+        var msg=document.getElementById("vm_message__vmID");
+        var div=document.getElementById("vm__vmID");
+        //----------------------------------------------------------
+        var schema={
+            type: "object",
+            properties: {
+            }
+        };
         if(fields.length!=0){
-            for(var i=0;i<fields.length;i++){ 
-                j_record[fields[i]]="";
+            for(var i=0;i<fields.length;i++){
+                switch(formats[i]){
+                    case 'number':  schema.properties[fields[i]]={type: "number"}; break;
+                    case 'drop':    schema.properties[fields[i]]={type: "string", enum: items[i].split(';')}; break;
+                    case "mail":    schema.properties[fields[i]]={type: "string",format:"email"}; break;
+                    case "date":    schema.properties[fields[i]]={
+                            type: "string", 
+                            options: {
+                                inputAttributes: {
+                                    placeholder: "dd/mm/yyyy"
+                                }
+                            },
+                            pattern: "^(0[1-9]|[12][0-9]|3[01])/(0[1-9]|1[012])/\\d{4}$",
+                            description: "Enter a date in the format dd/mm/yyyy"  
+                        }; 
+                        break;
+                    default: schema.properties[fields[i]]={type: "string"}; break;
+                }            
             }
         }
-   }
-    delete j_record.id;
-    delete j_record.submit_date;
-    delete j_record.submitted_by;
-    //----------------------------------------------------------
-    const container = document.getElementById("vm__vmID");
-    const options = {
-        mode: "form",
-        schema:schema,        
-        onEditable: function (node) {
-            return {
-                field: false,
-                value: true  
-            };
-        },
-        mainMenuBar: false,
-        enableSort: false, 
-        enableTransform: false,
-    };
-    const editor = new JSONEditor(container, options);
-    editor.set(j_record);
-    //----------------------------------------------------------
-    submit.addEventListener('click', (e) =>  { 
-        e.preventDefault(); e.stopPropagation(); 
-        const updatedRecord = editor.get();
-        if(updatedRecord==undefined) return;
-        var req={cmd:'json-data-add', rid:rid, form_values:updatedRecord, jsonFile:jsonFile}
-        $vm.request(req).then((res)=>{
-            if(res.status=="ok"){
-                //msg.textContent="Successfully submitted.";
-                const answerDiv = div.closest('.vm-answer');
-                answerDiv.remove();
-                try{ if($vm._vm_grid_refresh) $vm._vm_grid_refresh();}catch(e){}
+        var j_record={}
+    if(record){
+            j_record=record;
+    }
+    else{
+            if(fields.length!=0){
+                for(var i=0;i<fields.length;i++){ 
+                    j_record[fields[i]]="";
+                }
             }
+    }
+        delete j_record.id;
+        delete j_record.submit_date;
+        delete j_record.submitted_by;
+        //----------------------------------------------------------
+        const container = document.getElementById("vm__vmID");
+        const options = {
+            mode: "form",
+            schema:schema,        
+            onEditable: function (node) {
+                return {
+                    field: false,
+                    value: true  
+                };
+            },
+            mainMenuBar: false,
+            enableSort: false, 
+            enableTransform: false,
+        };
+        const editor = new JSONEditor(container, options);
+        editor.set(j_record);
+        //----------------------------------------------------------
+        submit.addEventListener('click', (e) =>  { 
+            e.preventDefault(); e.stopPropagation(); 
+            const updatedRecord = editor.get();
+            if(updatedRecord==undefined) return;
+            var req={cmd:'json-data-add', rid:rid, form_values:updatedRecord, jsonFile:jsonFile}
+            $vm.request(req).then((res)=>{
+                if(res.status=="ok"){
+                    //msg.textContent="Successfully submitted.";
+                    const answerDiv = div.closest('.vm-answer');
+                    answerDiv.remove();
+                    try{ if($vm._vm_grid_refresh) $vm._vm_grid_refresh();}catch(e){}
+                }
+            });
         });
-    });
+        //----------------------------------------------------------
+        /*
+        close.addEventListener('click', (e) =>  { 
+            e.preventDefault(); e.stopPropagation(); 
+            const answerDiv = div.closest('.vm-answer');
+            answerDiv.remove();
+        });
+        //----------------------------------------------------------
+        */
+    }
     //----------------------------------------------------------
-    /*
-    close.addEventListener('click', (e) =>  { 
-        e.preventDefault(); e.stopPropagation(); 
-        const answerDiv = div.closest('.vm-answer');
-        answerDiv.remove();
-    });
+    if(!$vm.json_editor_loaded){
+        $vm.loadCSS("https://cdn.jsdelivr.net/npm/jsoneditor@latest/dist/jsoneditor.min.css");
+        $vm.loadScript("https://cdn.jsdelivr.net/npm/jsoneditor@latest/dist/jsoneditor.min.js",function(){
+            $vm.json_editor_loaded=true;
+            after_load();
+        })
+    }
+    else after_load();
     //----------------------------------------------------------
-    */
 })();    
 </script>
