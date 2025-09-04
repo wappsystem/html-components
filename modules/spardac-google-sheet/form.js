@@ -32,6 +32,10 @@ m.submit=function(event){
         if(res.status=="ok"){
             const answerDiv = form.closest('.vm-answer');
             answerDiv.remove();
+            $vm.rag({
+                q:"",
+                a:["","rag","Successfully submitted"]
+            });
         }
     });
     //--------------------------------------------------------
